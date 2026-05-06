@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formel 1 & Umwelt — Seminarfacharbeit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #e10600;
+    --red-dark: #a00400;
+    --white: #f5f5f0;
+    --off-white: #d0cfc8;
+    --gray: #8a8880;
+    --dark: #0a0a0a;
+    --dark-2: #111110;
+    --dark-3: #1a1a18;
+    --dark-4: #242422;
+    --accent: #f0b800;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--dark);
+    color: var(--white);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 56px;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(225,6,0,0.3);
+  }
+
+  .nav-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    color: var(--red);
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--off-white);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--red); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 4vw 5vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 60% 40%, rgba(225,6,0,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 10% 80%, rgba(240,184,0,0.06) 0%, transparent 60%),
+      linear-gradient(160deg, #0a0a0a 0%, #111110 50%, #0d0d0b 100%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(225,6,0,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(225,6,0,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%);
+  }
+
+  .hero-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 1rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 2px;
+    background: var(--red);
+  }
+
+  .hero-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3.5rem, 10vw, 9rem);
+    line-height: 0.9;
+    text-transform: uppercase;
+    position: relative;
+    margin-bottom: 2rem;
+  }
+
+  .hero-title .line-1 { color: var(--white); display: block; }
+  .hero-title .line-2 {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--red);
+    display: block;
+  }
+  .hero-title .line-3 { color: var(--off-white); display: block; font-weight: 300; }
+
+  .hero-desc {
+    max-width: 520px;
+    font-size: 1rem;
+    color: var(--gray);
+    font-weight: 300;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .btn-primary {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--red);
+    color: white;
+    border: none;
+    padding: 0.9rem 2rem;
+    cursor: pointer;
+    text-decoration: none;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: background 0.2s, transform 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary:hover { background: var(--red-dark); transform: translateY(-2px); }
+
+  .btn-secondary {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--off-white);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 0.9rem 2rem;
+    cursor: pointer;
+    text-decoration: none;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: border-color 0.2s, color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-secondary:hover { border-color: var(--red); color: var(--red); }
+
+  .hero-scroll {
+    position: absolute;
+    right: 4vw;
+    bottom: 5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0.4;
+  }
+
+  .hero-scroll span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--white), transparent);
+    animation: scrollLine 1.5s ease-in-out infinite;
+  }
+
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 6rem 4vw; }
+
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--red);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 24px; height: 2px;
+    background: var(--red);
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 0.95;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .section-title em {
+    font-style: normal;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--off-white);
+  }
+
+  /* ── OVERVIEW / THEMA ── */
+  #thema {
+    background: var(--dark-2);
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .thema-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .thema-text p {
+    color: var(--off-white);
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+
+  .thema-text p strong {
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  .leitfrage {
+    background: var(--dark-3);
+    border-left: 3px solid var(--red);
+    padding: 1.5rem 2rem;
+    margin-top: 1.5rem;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%);
+  }
+
+  .leitfrage-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.5rem;
+  }
+
+  .leitfrage p {
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--white) !important;
+    line-height: 1.5;
+  }
+
+  .thema-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .stat-box {
+    background: var(--dark-3);
+    padding: 2rem 1.5rem;
+    transition: background 0.2s;
+  }
+
+  .stat-box:hover { background: var(--dark-4); }
+
+  .stat-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--red);
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── FAKTOREN ── */
+  #faktoren {
+    background: var(--dark);
+  }
+
+  .faktoren-intro {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .faktoren-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .faktoren-subtitle {
+    max-width: 380px;
+    color: var(--gray);
+    font-size: 0.95rem;
+    font-weight: 300;
+  }
+
+  .faktoren-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.05);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .faktor-card {
+    background: var(--dark-2);
+    padding: 2.5rem 2rem;
+    cursor: pointer;
+    transition: background 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .faktor-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: var(--red);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .faktor-card:hover { background: var(--dark-3); }
+  .faktor-card:hover::before { transform: scaleX(1); }
+
+  .faktor-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .faktor-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .faktor-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+
+  .faktor-text {
+    font-size: 0.88rem;
+    color: var(--gray);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .faktor-detail {
+    display: none;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    font-size: 0.85rem;
+    color: var(--off-white);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .faktor-card.open .faktor-detail { display: block; }
+
+  .faktor-toggle {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-top: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+  }
+
+  /* ── QUIZ ── */
+  #quiz {
+    background: var(--dark-2);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .quiz-wrapper {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .quiz-progress-bar {
+    width: 100%;
+    height: 3px;
+    background: rgba(255,255,255,0.08);
+    margin-bottom: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quiz-progress-fill {
+    height: 100%;
+    background: var(--red);
+    transition: width 0.4s ease;
+  }
+
+  .quiz-q-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .quiz-question {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    min-height: 80px;
+  }
+
+  .quiz-options {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .quiz-option {
+    background: var(--dark-3);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: var(--off-white);
+    text-align: left;
+    transition: border-color 0.2s, background 0.2s;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+    font-family: 'Barlow', sans-serif;
+  }
+
+  .quiz-option:hover:not(:disabled) {
+    border-color: rgba(225,6,0,0.4);
+    background: var(--dark-4);
+  }
+
+  .quiz-option.correct { border-color: #4caf50; background: rgba(76,175,80,0.12); color: #4caf50; }
+  .quiz-option.wrong   { border-color: var(--red); background: rgba(225,6,0,0.1); color: var(--red); }
+  .quiz-option:disabled { cursor: default; }
+
+  .quiz-feedback {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--off-white);
+    min-height: 2.5rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.5rem;
+    background: var(--dark-4);
+    border-left: 2px solid var(--accent);
+    display: none;
+  }
+
+  .quiz-feedback.visible { display: block; }
+
+  .quiz-score {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: var(--dark-3);
+    display: none;
+  }
+
+  .quiz-score.visible { display: block; }
+
+  .score-big {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 6rem;
+    line-height: 1;
+    color: var(--red);
+    margin-bottom: 0.5rem;
+  }
+
+  .score-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── TECHNIK ── */
+  #technik {
+    background: var(--dark);
+  }
+
+  .technik-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .technik-content { }
+
+  .technik-content p {
+    color: var(--off-white);
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+
+  .components-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    margin-top: 1.5rem;
+  }
+
+  .component-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--dark-2);
+    transition: background 0.2s;
+  }
+
+  .component-item:hover { background: var(--dark-3); }
+
+  .component-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.8rem;
+    color: rgba(225,6,0,0.25);
+    line-height: 1;
+    min-width: 2rem;
+  }
+
+  .component-info h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+  }
+
+  .component-info p {
+    font-size: 0.82rem;
+    color: var(--gray);
+    margin: 0 !important;
+    line-height: 1.5;
+  }
+
+  /* ── FAZIT ── */
+  #fazit {
+    background: var(--dark-2);
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .fazit-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+
+  .fazit-text p {
+    color: var(--off-white);
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+
+  .fazit-keypoints {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .keypoint {
+    display: flex;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--dark-3);
+    border-left: 2px solid var(--red);
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
+  }
+
+  .keypoint-icon { font-size: 1.2rem; margin-top: 0.1rem; }
+  .keypoint-text { font-size: 0.88rem; color: var(--off-white); font-weight: 300; line-height: 1.6; }
+
+  /* ── QUELLEN ── */
+  #quellen {
+    background: var(--dark);
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .quellen-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .quellen-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-top: 2rem;
+  }
+
+  .quellen-group h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .quellen-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .quellen-list li {
+    font-size: 0.8rem;
+    color: var(--gray);
+    font-weight: 300;
+    line-height: 1.5;
+    padding-left: 1rem;
+    border-left: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .quellen-list a {
+    color: var(--gray);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .quellen-list a:hover { color: var(--red); }
+
+  /* ── IMPRESSUM ── */
+  #impressum {
+    background: var(--dark-2);
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .impressum-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .impressum-block h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.75rem;
+  }
+
+  .impressum-block p, .impressum-block address {
+    font-size: 0.85rem;
+    color: var(--gray);
+    font-weight: 300;
+    line-height: 1.8;
+    font-style: normal;
+  }
+
+  .impressum-block a { color: var(--gray); text-decoration: none; }
+  .impressum-block a:hover { color: var(--off-white); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 1.5rem 4vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  .footer-brand {
+    font-weight: 900;
+    color: var(--red);
+  }
+
+  /* ── ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── DOWNLOAD NOTICE ── */
+  .download-notice {
+    background: var(--dark-3);
+    border: 1px solid rgba(225,6,0,0.3);
+    padding: 1.25rem 1.5rem;
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--gray);
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+
+  .download-notice span { font-size: 1.2rem; }
+
+  @media (max-width: 900px) {
+    .faktoren-cards { grid-template-columns: 1fr 1fr; }
+    .thema-grid, .technik-grid, .fazit-wrapper, .impressum-wrapper { grid-template-columns: 1fr; gap: 2rem; }
+    .thema-stats { grid-template-columns: 1fr 1fr; }
+    .quellen-grid { grid-template-columns: 1fr; }
+    nav { padding: 0 1.5rem; }
+    .nav-links { gap: 1rem; }
+  }
+
+  @media (max-width: 600px) {
+    .faktoren-cards { grid-template-columns: 1fr; }
+    .hero-title { font-size: clamp(2.8rem, 14vw, 5rem); }
+    nav .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .hero { padding: 0 1.5rem 4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">F1 &amp; Umwelt</div>
+  <ul class="nav-links">
+    <li><a href="#thema">Thema</a></li>
+    <li><a href="#faktoren">Faktoren</a></li>
+    <li><a href="#technik">Technik</a></li>
+    <li><a href="#quiz">Quiz</a></li>
+    <li><a href="#fazit">Fazit</a></li>
+    <li><a href="#quellen">Quellen</a></li>
+    <li><a href="#impressum">Impressum</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-tag">Seminarfacharbeit · Klasse 12</div>
+  <h1 class="hero-title">
+    <span class="line-1">Natürliche</span>
+    <span class="line-2">Einflüsse</span>
+    <span class="line-3">auf Formel&#8202;1&#8202;&#8202;Boliden</span>
+  </h1>
+  <p class="hero-desc">
+    Wie Temperatur, Luftdruck, Wind und Niederschlag die Leistungsfähigkeit eines Formel&#8209;1&#8209;Rennwagens beeinflussen — und wie Teams damit umgehen.
+  </p>
+  <div class="hero-ctas">
+    <a href="#thema" class="btn-primary">Zur Facharbeit ↓</a>
+    <a href="Seminarfach_F1_Hauptteil.pdf" class="btn-secondary" download>Facharbeit herunterladen ↓</a>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- THEMA -->
+<section id="thema">
+  <div class="thema-grid">
+    <div class="thema-text reveal">
+      <div class="section-label">Überblick</div>
+      <h2 class="section-title">Das <em>Thema</em></h2>
+      <p>
+        In der Formel 1 entscheidet nicht nur das schnellste Auto — auch die Umwelt hat stets einen
+        <strong>großen Einfluss auf das Ergebnis</strong>. Trotz hochentwickelter Aerodynamik, neuartiger
+        Hybridantriebe und umfangreicher Simulationen wirken Faktoren wie Temperatur, Luftdruck, Wind
+        und Niederschlag direkt auf jeden Boliden ein.
+      </p>
+      <p>
+        Die Arbeit analysiert diese natürlichen Einflussfaktoren systematisch: Wie reagiert das
+        Fahrzeug auf verschiedene Umweltbedingungen, und welche Anpassungsstrategien entwickeln Teams
+        und Fahrer, um trotzdem maximale Leistung zu erzielen?
+      </p>
+      <div class="leitfrage">
+        <div class="leitfrage-label">Leitfrage</div>
+        <p>„In welchem Ausmaß beeinflussen natürliche Umweltfaktoren die Leistungsfähigkeit eines Formel&#8209;1&#8209;Boliden, und welche Anpassungsstrategien entwickeln die Teams, um diese Einflüsse auszugleichen?"</p>
+      </div>
+      <div class="download-notice">
+        <span>📄</span>
+        <div>Die vollständige Facharbeit steht als <strong style="color:var(--white)">PDF-Dokument</strong> zum Download bereit.
+          <a href="Seminarfach_F1_Hauptteil.pdf" download style="color:var(--red); margin-left:0.25rem;">Jetzt herunterladen →</a>
+        </div>
+      </div>
+    </div>
+    <div class="thema-stats reveal" style="transition-delay:0.15s">
+      <div class="stat-box">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Umweltfaktoren</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Fahrzeugkomponenten</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">2200m</div>
+        <div class="stat-label">Höhe in Mexiko-Stadt</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">1200°</div>
+        <div class="stat-label">Bremstemperatur max.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAKTOREN -->
+<section id="faktoren">
+  <div class="faktoren-intro">
+    <div class="faktoren-header reveal">
+      <div>
+        <div class="section-label">Analyse</div>
+        <h2 class="section-title">Die <em>Faktoren</em></h2>
+      </div>
+      <p class="faktoren-subtitle">Klicke auf eine Karte, um mehr Details zu sehen.</p>
+    </div>
+  </div>
+  <div class="faktoren-cards">
+
+    <div class="faktor-card reveal" onclick="toggleCard(this)">
+      <span class="faktor-icon">🌡️</span>
+      <div class="faktor-num">01 — Temperatur</div>
+      <h3 class="faktor-title">Strecken-<br>temperatur</h3>
+      <p class="faktor-text">Reifen funktionieren nur in einem bestimmten Temperaturfenster optimal. Über- oder Unterschreitung führt zu Haftungsverlust und erhöhtem Verschleiß.</p>
+      <div class="faktor-detail">
+        <p>Zu geringe Temperaturen führen zu Traktionsverlust — besonders nach einem Boxenstopp oder beim Start. Zu hohe Temperaturen zerstören die Gummimischung und verringern die Haftung. Teams müssen dann zusätzliche Boxenstopps einplanen. Die optimale Reifentemperatur ist ein entscheidender strategischer Faktor über die gesamte Renndistanz.</p>
+      </div>
+      <div class="faktor-toggle">Mehr lesen +</div>
+    </div>
+
+    <div class="faktor-card reveal" onclick="toggleCard(this)" style="transition-delay:0.05s">
+      <span class="faktor-icon">🔥</span>
+      <div class="faktor-num">02 — Lufttemperatur</div>
+      <h3 class="faktor-title">Motor &amp;<br>Bremsen</h3>
+      <p class="faktor-text">Hohe Außentemperaturen erschweren die Kühlung. Zusätzliche Lufteinlässe erhöhen den Luftwiderstand und reduzieren die Topspeed.</p>
+      <div class="faktor-detail">
+        <p>Carbon-Scheibenbremsen haben eine Optimaltemperatur von 400–750 °C. Beim Bremsvorgang steigt sie auf bis zu 1200 °C. Das sogenannte „Fading" tritt auf, wenn die Bremsen zu heiß werden: Die Reibung nachlässt und der Bremsweg verlängert sich erheblich. Beim Grand Prix Las Vegas 2025 betrug die Außentemperatur nur 16 °C — eine besondere Herausforderung für die Bremssysteme.</p>
+      </div>
+      <div class="faktor-toggle">Mehr lesen +</div>
+    </div>
+
+    <div class="faktor-card reveal" onclick="toggleCard(this)" style="transition-delay:0.1s">
+      <span class="faktor-icon">🏔️</span>
+      <div class="faktor-num">03 — Luftdruck &amp; Höhe</div>
+      <h3 class="faktor-title">Höhenlage &amp;<br>Luftdichte</h3>
+      <p class="faktor-text">In Mexiko-Stadt (2.200 m) steht dem Turbomotor nur ¾ der normalen Sauerstoffmenge zur Verfügung. Auch Aerodynamik und Kühlung sind beeinträchtigt.</p>
+      <div class="faktor-detail">
+        <p>Geringere Luftdichte reduziert den aerodynamischen Abtrieb, da weniger Luftmasse über die Flügel strömt. Teams erhöhen den Anstellwinkel der Flügel — was mehr Abtrieb, aber auch mehr Luftwiderstand bedeutet. Gleichzeitig ist die Kühlleistung reduziert, was zu höherem Bauteilenverschleiß führen kann.</p>
+      </div>
+      <div class="faktor-toggle">Mehr lesen +</div>
+    </div>
+
+    <div class="faktor-card reveal" onclick="toggleCard(this)" style="transition-delay:0.15s">
+      <span class="faktor-icon">💧</span>
+      <div class="faktor-num">04 — Luftfeuchtigkeit</div>
+      <h3 class="faktor-title">Feuchte Luft &amp;<br>Strecke</h3>
+      <p class="faktor-text">Hohe Luftfeuchtigkeit verändert die Verbrennung geringfügig. Eine feuchte Streckenberfläche kann die Traktion der Reifen deutlich reduzieren.</p>
+      <div class="faktor-detail">
+        <p>Feuchte Luft enthält weniger Sauerstoff als trockene Luft. Moderne Motorsteuerungen gleichen diesen Effekt weitgehend aus. Kritischer ist die Strecke selbst: Früh morgens oder bei hoher Luftfeuchtigkeit kann sich ein dünner Feuchtigkeitsfilm auf dem Asphalt bilden, der die Reifen zum Gleiten bringt. Fahrer reagieren mit frühzeitigem Bremsen und vorsichtigem Beschleunigen.</p>
+      </div>
+      <div class="faktor-toggle">Mehr lesen +</div>
+    </div>
+
+    <div class="faktor-card reveal" onclick="toggleCard(this)" style="transition-delay:0.2s">
+      <span class="faktor-icon">🌬️</span>
+      <div class="faktor-num">05 — Wind</div>
+      <h3 class="faktor-title">Wind &amp;<br>Stabilität</h3>
+      <p class="faktor-text">Seitenwind verändert die aerodynamische Balance des Boliden. Besonders gefährlich in schnellen Kurven, wo der Abtrieb auf einer Seite variiert.</p>
+      <div class="faktor-detail">
+        <p>Gegenwind erhöht zwar den Luftwiderstand, steigert aber auch den Abtrieb in Kurven. Rückenwind ermöglicht höhere Geradeausgeschwindigkeiten, reduziert aber den Abtrieb. Da Windverhältnisse kurzfristig wechseln können, müssen Fahrer ständig ihre Fahrweise anpassen. Teams analysieren bereits vor dem Wochenende Wetterdaten und simulieren verschiedene Windszenarien.</p>
+      </div>
+      <div class="faktor-toggle">Mehr lesen +</div>
+    </div>
+
+    <div class="faktor-card reveal" onclick="toggleCard(this)" style="transition-delay:0.25s">
+      <span class="faktor-icon">🌧️</span>
+      <div class="faktor-num">06 — Niederschlag</div>
+      <h3 class="faktor-title">Regen &amp;<br>Aquaplaning</h3>
+      <p class="faktor-text">Regen reduziert die Haftung erheblich. Aquaplaning bei einer zu dicken Wasserschicht macht Lenken und Bremsen nahezu unmöglich.</p>
+      <div class="faktor-detail">
+        <p>Regenreifen mit tiefen Profilrillen leiten das Wasser aus der Kontaktfläche ab. Intermediate-Reifen sind für leichten Regen, Full-Wet-Reifen für starken Niederschlag konzipiert. Zusätzlich schränkt die Gischt hinter einem fahrenden Boliden die Sicht nachfolgender Fahrer stark ein. Bekanntes Beispiel: GP Belgien 2021 in Spa — Unfall von Lando Norris im Qualifying, das Rennen wurde nach einer einzigen Runde abgebrochen.</p>
+      </div>
+      <div class="faktor-toggle">Mehr lesen +</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TECHNIK -->
+<section id="technik">
+  <div class="technik-grid">
+    <div class="technik-content reveal">
+      <div class="section-label">Grundlagen</div>
+      <h2 class="section-title">Technik des<br><em>Boliden</em></h2>
+      <p>Ein moderner Formel-1-Bolide ist ein hochkomplexes technisches System, dessen Leistungsfähigkeit aus dem Zusammenspiel mehrerer Komponenten entsteht — alle davon reagieren auf Umweltbedingungen.</p>
+      <p>Das zentrale Strukturelement ist das <strong style="color:var(--white)">Monocoque</strong> aus kohlenstofffaserverstärktem Kunststoff. Daran befestigt sind aerodynamische Bauteile, die Antriebseinheit und das Fahrwerk.</p>
+    </div>
+    <div class="components-list reveal" style="transition-delay:0.1s">
+      <div class="component-item">
+        <div class="component-num">01</div>
+        <div class="component-info">
+          <h4>Aerodynamik</h4>
+          <p>Frontflügel, Heckflügel und Unterboden erzeugen Abtrieb — abhängig von Luftdichte und Wind. Balance zwischen maximalem Abtrieb und minimalem Luftwiderstand.</p>
+        </div>
+      </div>
+      <div class="component-item">
+        <div class="component-num">02</div>
+        <div class="component-info">
+          <h4>Hybridmotor (V6 1,6L)</h4>
+          <p>Seit 2014 kombiniert die F1 einen Verbrennungsmotor mit MGU-K und MGU-H. Luftdichte und -feuchtigkeit beeinflussen die Verbrennung und damit die Leistung.</p>
+        </div>
+      </div>
+      <div class="component-item">
+        <div class="component-num">03</div>
+        <div class="component-info">
+          <h4>Reifen (Pirelli)</h4>
+          <p>Drei Trockenreifen (Soft/Medium/Hard) und zwei Regenreifen. Jede Mischung hat ein spezifisches Temperaturfenster für optimale Haftung.</p>
+        </div>
+      </div>
+      <div class="component-item">
+        <div class="component-num">04</div>
+        <div class="component-info">
+          <h4>Bremsanlage (Carbon)</h4>
+          <p>Optimaltemperatur 400–750 °C. Reagiert stark auf Außentemperatur. Bei Überhitzung tritt „Fading" auf — der Bremsweg verlängert sich kritisch.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz">
+  <div class="quiz-wrapper">
+    <div class="section-label reveal">Interaktiv</div>
+    <h2 class="section-title reveal">Teste dein<br><em>Wissen</em></h2>
+    <p class="reveal" style="color:var(--gray); margin-bottom:2.5rem; font-weight:300; font-size:0.95rem">Wie gut kennst du die Auswirkungen von Umweltfaktoren auf Formel-1-Boliden?</p>
+
+    <div id="quiz-area">
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="qprogress" style="width:0%"></div></div>
+      <div class="quiz-q-num" id="qnum">Frage 1 / 7</div>
+      <div class="quiz-question" id="qtext"></div>
+      <div class="quiz-options" id="qoptions"></div>
+      <div class="quiz-feedback" id="qfeedback"></div>
+      <button class="btn-primary" id="qnext" style="display:none" onclick="nextQuestion()">Weiter →</button>
+    </div>
+    <div class="quiz-score" id="quiz-score">
+      <div class="score-big" id="score-num">0/15</div>
+      <div class="score-label">Richtige Antworten</div>
+      <p id="score-msg" style="color:var(--gray); font-size:0.95rem; margin-bottom:1.5rem"></p>
+      <button class="btn-primary" onclick="restartQuiz()">Nochmal spielen ↺</button>
+    </div>
+  </div>
+</section>
+
+<!-- FAZIT -->
+<section id="fazit">
+  <div class="fazit-wrapper">
+    <div class="fazit-text reveal">
+      <div class="section-label">Ergebnisse</div>
+      <h2 class="section-title">Das <em>Fazit</em></h2>
+      <p>Trotz modernster Technologie haben natürliche Umweltfaktoren weiterhin einen entscheidenden Einfluss auf die Performance eines Formel-1-Boliden. Kein technologischer Fortschritt kann die Umwelt vollständig kontrollieren.</p>
+      <p>Temperatur, Luftdruck, Luftfeuchtigkeit, Wind und Niederschlag beeinflussen sowohl technische Komponenten als auch strategische Entscheidungen der Teams. Datenbasierte Analysen und Simulationen ermöglichen es, Einflüsse auszugleichen — vollständig ausschalten lassen sie sich nicht.</p>
+      <p>Für künftige Untersuchungen ist besonders interessant, wie neue Motorengenerationen und aerodynamische Regelwerke — wie das 2026er Reglement — die Wechselwirkung zwischen Bolide und Umwelt verändern werden.</p>
+    </div>
+    <div class="fazit-keypoints reveal" style="transition-delay:0.1s">
+      <div class="keypoint">
+        <div class="keypoint-icon">🌡️</div>
+        <div class="keypoint-text"><strong style="color:var(--white)">Temperatur</strong> ist der kritischste Faktor: Reifen, Motor und Bremsen reagieren alle auf Temperaturveränderungen.</div>
+      </div>
+      <div class="keypoint">
+        <div class="keypoint-icon">🏔️</div>
+        <div class="keypoint-text"><strong style="color:var(--white)">Höhenlage</strong> stellt besondere Herausforderungen dar — weniger Luft bedeutet weniger Abtrieb und weniger Motorleistung.</div>
+      </div>
+      <div class="keypoint">
+        <div class="keypoint-icon">🌧️</div>
+        <div class="keypoint-text"><strong style="color:var(--white)">Regen</strong> ist der dramatischste Einfluss — er kann Rennen komplett verändern oder sogar abbrechen lassen.</div>
+      </div>
+      <div class="keypoint">
+        <div class="keypoint-icon">📊</div>
+        <div class="keypoint-text"><strong style="color:var(--white)">Simulation &amp; Daten</strong> sind heute unverzichtbar: Teams bereiten sich mit Wetteranalysen auf jedes Szenario vor.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUELLEN -->
+<section id="quellen">
+  <div class="quellen-wrapper">
+    <div class="section-label reveal">Nachweise</div>
+    <h2 class="section-title reveal">Quellen-<em>verzeichnis</em></h2>
+    <div class="quellen-grid reveal">
+      <div class="quellen-group">
+        <h3>Buchquellen</h3>
+        <ul class="quellen-list">
+          <li>Albrecht, M. (2015): Diercke Weltatlas. Physische Karte. Braunschweig: Westermann</li>
+          <li>Trzesniowski, M. (2020): Handbuch Rennwagentechnik. Gesamtfahrzeug. Graz: Springer</li>
+          <li>Walter, A. (2014): Bachelorarbeit. Aerodynamik für ein Formel-Rennfahrzeug. Hamburg: HAW Hamburg</li>
+        </ul>
+      </div>
+      <div class="quellen-group">
+        <h3>Ausgewählte Internetquellen</h3>
+        <ul class="quellen-list">
+          <li><a href="https://www.fia.com/regulation/category/110" target="_blank">FIA.com (2024): FIA Formula One World Championship Regulations</a></li>
+          <li><a href="https://www.formel1.de/inside/reglement/technisches-reglement" target="_blank">formel1.de (2024): Technisches Reglement F1</a></li>
+          <li><a href="https://www.adac.de/rund-ums-fahrzeug/ausstattung-technik-zubehoer/reifen/sicherheit/aquaplaning/" target="_blank">adac.de (2025): Aquaplaning</a></li>
+          <li><a href="https://www.motorsport-total.com/formel-1/news/welchen-einfluss-hat-die-hoehenlage-auf-ein-formel-1-auto-21110306" target="_blank">motorsport-total.com (2021): Einfluss der Höhenlage</a></li>
+          <li><a href="https://www.cordulus.com/de/blog/how-weather-affects-racing-outcomes" target="_blank">cordulus.com: Wie das Wetter die Rennergebnisse beeinflusst</a></li>
+          <li><a href="https://www.motorsport-magazin.com/formel1/news-291269-regen-chaos-in-der-formel-1-die-schlimmsten-wetter-kapriolen-der-geschichte-in-japan-nuerburgring-nordschleife-australien-kanada/" target="_blank">Steinrisser, M. (2024): Regen-Chaos in der Formel 1</a></li>
+          <li><a href="https://gp-travel.de/blogs/alles-ber-reifen-in-der-formel-1-arten-druck-und-boxenstopps/" target="_blank">gp-travel.de: Alles über Reifen in der Formel 1</a></li>
+          <li><a href="https://www.at-rs.de/beitrag/items/so-bremst-die-formel-1.html" target="_blank">at-rs.de (2016): So bremst die Formel 1</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="reveal" style="margin-top:1.5rem; font-size:0.8rem; color:var(--gray)">Vollständiges Literaturverzeichnis in der Facharbeit (S. 13–16). <a href="Seminarfach_F1_Hauptteil.pdf" download style="color:var(--red)">Facharbeit herunterladen →</a></p>
+  </div>
+</section>
+
+<!-- IMPRESSUM -->
+<section id="impressum">
+  <div class="impressum-wrapper">
+    <div class="impressum-block reveal">
+      <h4>Angaben gemäß § 5 TMG</h4>
+      <address>
+        Timo Detels<br>
+        Bahnhofstraße 10<br>
+        27729 Axstedt<br>
+        Deutschland
+      </address>
+    </div>
+    <div class="impressum-block reveal" style="transition-delay:0.08s">
+      <h4>Kontakt</h4>
+      <p>
+        Telefon: <a href="tel:+4916296579231">01629657923</a><br>
+        E-Mail: <a href="mailto:t.det08@gmail.com">t.det08@gmail.com</a>
+      </p>
+    </div>
+    <div class="impressum-block reveal" style="transition-delay:0.16s">
+      <h4>Datenschutz &amp; Urheberrecht</h4>
+      <p>Diese Website wurde im Rahmen einer Seminarfacharbeit erstellt. Alle verwendeten Quellen sind im Literaturverzeichnis angegeben. Bilder wurden nicht verwendet. Keine Erhebung personenbezogener Daten.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><span class="footer-brand">F1 &amp; Umwelt</span> — Seminarfacharbeit Klasse 12</p>
+  <p>Alle Rechte vorbehalten · Keine Werbung · Keine Cookies</p>
+</footer>
+
+<script>
+// ── SCROLL REVEAL ──
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.1 });
+reveals.forEach(r => io.observe(r));
+
+// ── CARD TOGGLE ──
+function toggleCard(card) {
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.faktor-card.open').forEach(c => {
+    c.classList.remove('open');
+    c.querySelector('.faktor-toggle').textContent = 'Mehr lesen +';
+  });
+  if (!isOpen) {
+    card.classList.add('open');
+    card.querySelector('.faktor-toggle').textContent = 'Weniger −';
+  }
+}
+
+// ── QUIZ ──
+const questions = [
+  {
+    q: "In welchem Temperaturbereich arbeiten Carbon-Scheibenbremsen optimal?",
+    opts: ["100–300 °C", "400–750 °C", "800–1000 °C", "50–200 °C"],
+    correct: 1,
+    feedback: "Carbon-Bremsen haben ein Optimalfenster von 400–750 °C. Beim Bremsvorgang können sie kurzzeitig bis 1200 °C erreichen — im Kalten nutzen sie sich schneller ab."
+  },
+  {
+    q: "Welcher Rennstreckenboden liegt in Mexiko-Stadt auf etwa 2200 Metern Höhe?",
+    opts: ["Interlagos (Brasilien)", "Autodromo Hermanos Rodriguez", "Circuit de Barcelona", "Monza"],
+    correct: 1,
+    feedback: "Der Autodromo Hermanos Rodriguez in Mexiko-Stadt liegt auf etwa 2200 m. Der V6-Motor bekommt dort nur ¾ der normalen Sauerstoffmenge."
+  },
+  {
+    q: "Was passiert, wenn Reifen zu heiß werden?",
+    opts: ["Sie bieten mehr Grip", "Die Haftung verbessert sich", "Die Gummimischung verliert ihre Struktur", "Der Reifendruck sinkt"],
+    correct: 2,
+    feedback: "Bei Überhitzung verliert die Gummimischung ihre optimale Struktur — die Haftung sinkt und der Verschleiß steigt stark an."
+  },
+  {
+    q: "Was versteht man unter 'Fading' bei Formel-1-Bremsen?",
+    opts: ["Abnutzung der Bremsbeläge", "Nachlassen der Bremsleistung durch Überhitzung", "Abkühlung nach dem Rennen", "Fehler in der Bremssteuerung"],
+    correct: 1,
+    feedback: "Beim 'Fading' lässt die Reibung zwischen Bremsbelägen und Bremsscheibe durch Überhitzung nach — der Bremsweg verlängert sich gefährlich."
+  },
+  {
+    q: "Beim GP Belgien 2021 in Spa wurde das Rennen wegen Regen fast vollständig abgebrochen. Wie viele Runden wurden offiziell gefahren?",
+    opts: ["3 Runden", "5 Runden", "1 Runde", "0 Runden"],
+    correct: 2,
+    feedback: "Das Rennen in Spa 2021 wurde nach nur einer einzigen Runde offiziell gewertet. Lando Norris hatte zuvor im Qualifying einen schweren Nassunfall."
+  },
+  {
+    q: "Was ist 'Aquaplaning' im Motorsport?",
+    opts: [
+      "Eine Reifenstrategie bei Regen",
+      "Verlust der Bodenhaftung durch einen Wasserfilm auf der Strecke",
+      "Spezielle Aerodynamik für nasse Bedingungen",
+      "Ein Kühlsystem für den Motor"
+    ],
+    correct: 1,
+    feedback: "Beim Aquaplaning kann das Reifenprofil die Wassermenge nicht mehr ableiten — der Reifen verliert den Kontakt zur Strecke. Lenken und Bremsen werden fast unmöglich."
+  },
+  {
+    q: "Warum erhöhen Teams bei Rennen in großer Höhe den Flügelwinkel?",
+    opts: [
+      "Um Kraftstoff zu sparen",
+      "Um den Luftwiderstand zu reduzieren",
+      "Um den durch geringere Luftdichte verlorenen Abtrieb auszugleichen",
+      "Um die Bremsen zu kühlen"
+    ],
+    correct: 2,
+    feedback: "In großer Höhe ist die Luftdichte geringer, weshalb weniger Abtrieb erzeugt wird. Ein steilerer Flügelwinkel vergrößert die Kontaktfläche und erzeugt mehr Abtrieb — erhöht aber auch den Luftwiderstand."
+  },
+  {
+    q: "Welche zwei Regenreifentypen setzt die Formel 1 ein?",
+    opts: [
+      "Soft und Hard",
+      "Intermediate und Full-Wet",
+      "Medium und Intermediate",
+      "Wet und Ultra-Soft"
+    ],
+    correct: 1,
+    feedback: "Pirelli stellt zwei Regenreifentypen bereit: Intermediate-Reifen für leichten Regen und trockenwerdende Strecken, sowie Full-Wet-Reifen für starken Niederschlag. Beide leiten Wasser durch tiefe Profilrillen ab."
+  },
+  {
+    q: "Was beschreibt die 'aerodynamische Balance' eines Formel-1-Boliden?",
+    opts: [
+      "Das Gleichgewicht zwischen Motorleistung und Reifengewicht",
+      "Die Verteilung des Abtriebs zwischen Vorder- und Hinterachse",
+      "Die Symmetrie des Fahrzeugrahmens",
+      "Die Kraftstoffverteilung im Tank"
+    ],
+    correct: 1,
+    feedback: "Die aerodynamische Balance beschreibt, wie der Abtrieb auf Vorder- und Hinterachse verteilt ist. Bei zu viel Abtrieb vorne neigt das Auto zum Untersteuern, bei zu viel hinten zum Übersteuern. Wind kann diese Balance kurzfristig verändern."
+  },
+  {
+    q: "Was ist das Monocoque bei einem Formel-1-Boliden?",
+    opts: [
+      "Das Getriebe",
+      "Der tragende Fahrgastraum aus Carbonfaser",
+      "Das Vorderrad-Aufhängungssystem",
+      "Der Heckflügel"
+    ],
+    correct: 1,
+    feedback: "Das Monocoque ist das zentrale Strukturelement des Boliden — ein einteiliger, tragender Fahrgastraum aus kohlenstofffaserverstärktem Kunststoff (CFK). Es bildet das Rückgrat des gesamten Fahrzeugs."
+  },
+  {
+    q: "Wie beeinflusst hohe Luftfeuchtigkeit die Motorleistung?",
+    opts: [
+      "Sie erhöht die Leistung deutlich",
+      "Sie hat keinerlei Einfluss",
+      "Feuchte Luft enthält weniger Sauerstoff und reduziert die Verbrennung leicht",
+      "Sie kühlt den Motor und erhöht die Leistung"
+    ],
+    correct: 2,
+    feedback: "Feuchte Luft enthält Wasserdampf, der den Sauerstoffanteil verdünnt. Das beeinträchtigt die Verbrennung leicht. Moderne Motorsteuerungen gleichen diesen Effekt weitgehend aus, vollständig kompensieren lässt er sich jedoch nicht."
+  },
+  {
+    q: "Was ist der Hauptvorteil von Gegenwind für einen Formel-1-Boliden?",
+    opts: [
+      "Höhere Topspeed auf der Geraden",
+      "Bessere Kühlung des Motors",
+      "Mehr Abtrieb in Kurven trotz höherem Luftwiderstand",
+      "Geringerer Reifenverschleiß"
+    ],
+    correct: 2,
+    feedback: "Gegenwind erhöht zwar den Luftwiderstand und senkt die Topspeed, erzeugt aber mehr Abtrieb — besonders in Kurven. Teams müssen abwägen, wie sie ihr Setup für wechselnde Windverhältnisse optimieren."
+  },
+  {
+    q: "Seit welchem Jahr verwendet die Formel 1 den aktuellen V6-Hybridmotor?",
+    opts: ["2010", "2014", "2018", "2022"],
+    correct: 1,
+    feedback: "Seit 2014 kombiniert die Formel 1 einen V6-Turbomotor (1,6 Liter) mit zwei elektrischen Motoreinheiten: MGU-K (kinetische Energie) und MGU-H (Abgasenergie). Dieses Antriebssystem ist deutlich empfindlicher gegenüber Luftdichte und -feuchtigkeit als der alte V8-Saugmotor."
+  },
+  {
+    q: "Welcher Fahrer verunglückte beim Qualifying in Spa 2021 schwer wegen Regen?",
+    opts: ["Max Verstappen", "Lewis Hamilton", "Lando Norris", "Charles Leclerc"],
+    correct: 2,
+    feedback: "Lando Norris verunglückte beim Qualifying in Spa 2021 auf regennasser Strecke schwer. Das anschließende Rennen wurde wegen anhaltenden Regens nach nur einer offiziellen Runde abgebrochen."
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById('qnum').textContent = `Frage ${current + 1} / ${questions.length}`;
+  document.getElementById('qprogress').style.width = `${(current / questions.length) * 100}%`;
+  document.getElementById('qtext').textContent = q.q;
+  document.getElementById('qfeedback').classList.remove('visible');
+  document.getElementById('qfeedback').textContent = '';
+  document.getElementById('qnext').style.display = 'none';
+  answered = false;
+
+  const container = document.getElementById('qoptions');
+  container.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => selectAnswer(i);
+    container.appendChild(btn);
+  });
+}
+
+function selectAnswer(idx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[idx].classList.add(idx === q.correct ? 'correct' : 'wrong');
+  if (idx !== q.correct) btns[q.correct].classList.add('correct');
+  if (idx === q.correct) score++;
+  const fb = document.getElementById('qfeedback');
+  fb.textContent = q.feedback;
+  fb.classList.add('visible');
+  document.getElementById('qnext').style.display = 'inline-flex';
+}
+
+function nextQuestion() {
+  current++;
+  if (current >= questions.length) {
+    document.getElementById('quiz-area').querySelector('.quiz-progress-bar').style.display = 'none';
+    document.getElementById('qnum').style.display = 'none';
+    document.getElementById('qtext').style.display = 'none';
+    document.getElementById('qoptions').style.display = 'none';
+    document.getElementById('qfeedback').style.display = 'none';
+    document.getElementById('qnext').style.display = 'none';
+    const sc = document.getElementById('quiz-score');
+    document.getElementById('score-num').textContent = `${score}/${questions.length}`;
+    const pct = score / questions.length;
+    document.getElementById('score-msg').textContent = pct >= 0.85 ? '🏆 Ausgezeichnet! Du kennst die F1-Physik sehr gut.' : pct >= 0.57 ? '✅ Solide! Ein paar Details gibt es noch zu entdecken.' : '📚 Lies nochmal nach — da steckt noch mehr drin!';
+    sc.classList.add('visible');
+  } else {
+    renderQuestion();
+  }
+}
+
+function restartQuiz() {
+  current = 0; score = 0;
+  const area = document.getElementById('quiz-area');
+  area.querySelector('.quiz-progress-bar').style.display = '';
+  area.querySelector('#qnum').style.display = '';
+  area.querySelector('#qtext').style.display = '';
+  area.querySelector('#qoptions').style.display = '';
+  document.getElementById('quiz-score').classList.remove('visible');
+  renderQuestion();
+}
+
+renderQuestion();
+</script>
+
+</body>
+</html>
